@@ -32,7 +32,7 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
         docker tag my-app-image my-docker-repo/my-app-image:latest
         docker push my-docker-repo/my-app-image:latest
 
