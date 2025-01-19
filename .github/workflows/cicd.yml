@@ -33,8 +33,8 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       run: |
         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-        docker tag my-app-image my-docker-repo/my-app-image:latest
-        docker push my-docker-repo/my-app-image:latest
+        docker tag my-app-image cdineshreddy13446/my-app-image:latest
+        docker push cdineshreddy13446/my-app-image:latest
 
     - name: Deploy to OpenShift
       env:
@@ -42,5 +42,5 @@ jobs:
         OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       run: |
         oc login --token=$OPENSHIFT_TOKEN --server=$OPENSHIFT_SERVER
-        oc new-app my-docker-repo/my-app-image:latest
+        oc new-app cdineshreddy13446/my-app-image:latest
         oc expose svc/my-app
