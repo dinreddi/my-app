@@ -48,7 +48,15 @@ jobs:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
         OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       run: |
+        # Log in to OpenShift
         oc login --token=$OPENSHIFT_TOKEN --server=$OPENSHIFT_SERVER
+    
+        # Switch to the existing project
         oc project dineshreddy13446-dev
-        oc new-app cdineshreddy13446/my-app-image:latest
+    
+        # Deploy the DockerHub image
+        oc new-app docker.io/cdineshreddy13446/my-app-image:latest --name=my-app
+    
+        # Expose the application to create a public route
         oc expose svc/my-app
+
