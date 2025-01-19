@@ -36,11 +36,19 @@ jobs:
         docker tag my-app-image cdineshreddy13446/my-app-image:latest
         docker push cdineshreddy13446/my-app-image:latest
 
+    - name: Install OpenShift CLI
+      run: |
+        curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz
+        tar -xvf openshift-client-linux.tar.gz
+        sudo mv oc /usr/local/bin/
+        sudo mv kubectl /usr/local/bin/
+
     - name: Deploy to OpenShift
       env:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
         OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       run: |
         oc login --token=$OPENSHIFT_TOKEN --server=$OPENSHIFT_SERVER
+        oc project dineshreddy13446-dev
         oc new-app cdineshreddy13446/my-app-image:latest
         oc expose svc/my-app
